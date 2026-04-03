@@ -29,30 +29,30 @@
 </details>
 
 <details>
-  <summary>CI/CD
+  <summary> CI/CD </summary>
 
   
-    
-  </summary>
+  
 </details>
 
 <details>
-  <summary>  Linux
+  <summary> Linux </summary>
 
     
-  </summary>
 </details>
 
 <details>
-  <summary>  Сети
+  <summary> Сети </summary>
 
     
-  </summary>
 </details>
 
 <details>
-  <summary>📊 Мониторинг и парсинг логов
+  <summary>📊 Мониторинг и парсинг логов  </summary>
 
+| Проблема | Решение | Ссылка |
+| :--- | :--- | :--- |
+| Падение Es при старте из-за Race Condition | Внедрение Healthcheck и Sequential Startup | [Решение](./ELK-troubleshooting/fix-race-condition-elasticsearch.md) |
     
-  </summary>
+ 
 </details>
