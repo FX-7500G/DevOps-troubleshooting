@@ -16,7 +16,7 @@
 
 | Проблема | Решение | Ссылка |
 | :--- | :--- | :--- |
-| Ошибка 'no such host' (IPv6) | Отключение IPv6 и настройка DNS | [Решение](./Docker-troubleshooting/combating-ipv6.md) |
+| Ошибка 'no such host' (IPv6) | Отключение IPv6 и настройка DNS | [Решение](./Docker-troubleshooting/combating-IPv6-priotization.md) |
 
 </details>
 
