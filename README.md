@@ -1,13 +1,17 @@
-# DevOps Troubeshooting
+# DevOps Troubleshooting
 Всем хай! Я Junior DevOps-инженер 
-Здесь я документирую сложные техпроблемы, с которыми я сталкивался на своём пути, чтобы в будущем было легче с ними работать
+Здесь собраны разборы реальных технических кейсов, с которыми я столкнулся при развертывании и эксплуатации инфраструктуры
 
-Здесь я опишу свои проблемы с которыми сталкивался в работе и на дому. Вроде: 
-- K8s
-- Docker
-- CI/CD
-- Linux
-- Сетевухи
+Технологический стек
+    Оркестрация: Kubernetes, Docker, Docker Compose
+    Мониторинг/Логи: ELK Stack (Elasticsearch, Logstash, Kibana), Grafana + Prometheus, Filebeat, Fluentd
+    ОС/Система: Linux (Ubuntu/Debian), Windows
+
+Контактная информация:
+
+Telegram: @FX_7500G
+
+Email: alekcwdsa@gmail.com
 
 ## Кейсы 
 
@@ -26,7 +30,7 @@
 | Проблема | Решение | Ссылка |
 | :--- | :--- | :--- |
 | Динамически не настроились PVC и таймауты при деплое GitLab | Редактирование StorageClass, ручное создание бакетов и фикс MTU | [Решение](./K8s-troubleshooting/gitlab-k8s-pvc-network-fix.md) |
-| Установка K8s через бинарники | Кратко не опишешь | [Решение](./K8s-troubleshooting/K8s-binary-installing.md)
+| Недоступность APT-репозиториев K8s | Установка бинарников напрямую, настройка containerd, ручное создание systemd-unit | [Решение](./K8s-troubleshooting/K8s-binary-installing.md)
 </details>
 
 <details>
