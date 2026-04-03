@@ -9,5 +9,7 @@
 - Linux, Сетевухи
 - 
 
-- ## Кейсы
-- 
+## Кейсы
+|Технология| Проблема | Решение | Ссылка |
+| :--- | :--- | :--- | :--- |
+| **Docker** | Ошибка 'no such host' (IPv6) | Отключение IPv6 и настройка DNS | [Решение кейса](./Docker-troubleshooting/combating_IPv6_priotization.md) |
