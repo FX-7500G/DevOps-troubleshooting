@@ -22,31 +22,37 @@
 
 <details>
 <summary>⎈ Kubernetes</summary>
+  
 | Проблема | Решение | Ссылка |
 | :--- | :--- | :--- |
+| Динамически не настроились PVC и таймауты при деплое GitLab | Редактирование StorageClass, ручное создание бакетов и фикс MTU | [Решение](./K8s-troubleshooting/gitlab-k8s-pvc-network-fix.md) |
 </details>
 
 <details>
-  <summary>
-    CI/CD
+  <summary>CI/CD
+
+  
     
   </summary>
 </details>
 
 <details>
-  <summary>
-    Linux
+  <summary>  Linux
+
+    
   </summary>
 </details>
 
 <details>
-  <summary>
-    Сети
+  <summary>  Сети
+
+    
   </summary>
 </details>
 
 <details>
-  <summary>
-    📊 Мониторинг и парсинг логов
+  <summary>📊 Мониторинг и парсинг логов
+
+    
   </summary>
 </details>
