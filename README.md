@@ -1,17 +1,14 @@
 # DevOps Troubleshooting
-Всем хай! Я Junior DevOps-инженер 
-Здесь собраны разборы реальных технических кейсов, с которыми я столкнулся при развертывании и эксплуатации инфраструктуры
+Всем хай! Я Junior DevOps-инженер. Здесь собраны разборы реальных технических кейсов, с которыми я столкнулся при развертывании и эксплуатации как чужой, так и своей инфраструктуры
 
-Технологический стек
-    Оркестрация: Kubernetes, Docker, Docker Compose
-    Мониторинг/Логи: ELK Stack (Elasticsearch, Logstash, Kibana), Grafana + Prometheus, Filebeat, Fluentd
-    ОС/Система: Linux (Ubuntu/Debian), Windows
+Технологический стек:    
+Оркестрация: Kubernetes, Docker, Docker Compose    
+Мониторинг/Логи: ELK Stack (Elasticsearch, Logstash, Kibana), Grafana + Prometheus, Filebeat, Fluentd           
+ОС/Система: Linux (Ubuntu/Debian), Windows    
 
-Контактная информация:
-
-Telegram: @FX_7500G
-
-Email: alekcwdsa@gmail.com
+Контактная информация:    
+Telegram: @FX_7500G    
+Email: alekcwdsa@gmail.com    
 
 ## Кейсы 
 
