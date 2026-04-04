@@ -2,9 +2,12 @@
 Всем хай! Я Junior DevOps-инженер. Здесь собраны разборы реальных технических кейсов, с которыми я столкнулся при развертывании и эксплуатации как чужой, так и своей инфраструктуры
 
 Технологический стек:    
-Оркестрация: Kubernetes, Docker, Docker Compose    
-Мониторинг/Логи: ELK Stack (Elasticsearch, Logstash, Kibana), Grafana + Prometheus, Filebeat, Fluentd           
-ОС/Система: Linux (Ubuntu/Debian), Windows    
+Оркестрация/Контейниризация: Kubernetes, Docker, Docker Compose    
+Мониторинг/Логи: ELK Stack (Elasticsearch, Logstash, Kibana), Grafana + Prometheus           
+Система: Linux (Ubuntu/Debian), Windows    
+CI/CD: GitLab CI, ArgoCD  
+IaC: Ansible, Vagrant   
+Виртуализация: Proxmox VE   
 
 Контактная информация:    
 Telegram: @FX_7500G    
