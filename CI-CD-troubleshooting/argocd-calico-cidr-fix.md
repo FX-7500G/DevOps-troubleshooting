@@ -73,7 +73,7 @@ kubectl get svc -n ingress-nginx
 
 - Получаем пароль:
   ```bash
-  kubectl get secret argocd-initial-admin-secret -b argocd -o jsonpath="{.data.password}" | base64 -d
+  kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
   ```
 
  - Открываем https://\*ARGOCDNAME\*.30966
@@ -105,7 +105,41 @@ kubectl get svc -n ingress-nginx
 ```bash
 sudo crictl inspect $(sudo crictl ps | grep repo-server | awk '{print $1}')
 ```
-- Выдаётся результат, после чего заходим в неймспейс пода
+<details> <summary> Простой график работы сети </summary> 
+
+```mermaid
+graph LR
+    subgraph K8S ["  Kubernetes Cluster (VM2) "]
+        Pod["ArgoCD Pod\n10.244.x.x"]
+        GW["Calico Gateway\n169.254.1.1"]
+        CHECK{"CIDR Check\n192.168.0.0/16"}
+    end
+
+    Pod --> GW
+    GW --> CHECK
+    CHECK -->|" 192.168.0.107\nвходит в CIDR"| DROP["Пакет дропается\n"]
+    CHECK -.->|" После смены\nна 10.244.0.0/16"| NAT["Node NAT"]
+    NAT --> GL["GitLab CE\n192.168.0.107"]
+
+    style K8S fill:#1e1e1e,stroke:#555,color:#ccc
+    style Pod fill:#1e1e1e,stroke:#888,color:#ccc
+    style GW fill:#1e1e1e,stroke:#888,color:#ccc
+    style CHECK fill:#1e1e1e,stroke:#888,color:#ccc
+    style DROP fill:#1e1e1e,stroke:#cc3333,color:#cc3333
+    style NAT fill:#1e1e1e,stroke:#888,color:#ccc
+    style GL fill:#1e1e1e,stroke:#888,color:#ccc
+```
+
+1. ArgoCD под отправляет запрос на IP ГитЛаба  
+2. Пакет приходит к CNI как к шлюзу. CNI выбирает куда отправить пакет, на локалку или в интернет  
+3. CIDR check. Здесь calico видит, что целевой IP находится в диапазоне, который сохранён для подов кластера  
+4.1. Плохой вариант: Calico видит, что он находится в диапазоне IP подов и считает, что этот IP принадлежит какому-то поду в кластере. Ищет его и не находит из-за чего пакет просто дропается  
+4.2 Хороший вариант: Calico теперь хранит поды не на хостовых диапазонах, а на другом пуле адресов (например не 192.168.XX, а 10.244XX) из-за чего он понимает, что этот Айпишник не входит в его пул и предеаётся дальше на NodeNAT. Передаётся уже на сетевой стек самой ноды, срабатывает NAT и адрес отправителя подменяется на IP ноды, чтоб внешний IP знал куда отвечать 
+
+</details>
+
+- Выдаётся результат, после чего заходим в неймспейс пода  
+
 ```bash
 sudo nsenter -t <POD_NAMESPACES> -n ip route show
 ```
@@ -119,6 +153,8 @@ sudo nsenter -t <POD_NAMESPACES> -n ip route show
 kubectl get ippool -o yaml | grep cidr # cidr: 192.168.0.0/16
 ```
 - Вот и проблема. Calico использовал диапазон для подов в котором существовал GitLab. В итоге когда под пытался подключиться к Гиту, calico думал, что это его собственный под, пытался найти его внутри кластера, не находил его и в итоге дропал пакет
+
+
 
 ### 4. Решение проблемы
 - Меняем CIDR через tigera-operator
@@ -151,7 +187,7 @@ spec:
 EOF
 ```
 ```bash
-kubectl apply -f newest-ippool.yaml
+kubectl apply -f new-ippool.yaml
 ```
 - Перезапускаем поды чтобы они получили новый IP из другого диапазона
 ```bash
@@ -168,7 +204,7 @@ kubectl get pods -n argocd -o wide
 <details> <summary> argocd-conf.yaml </summary>
 
 ```yaml
-apiVersion: argocdproj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: guestbook
