@@ -7,7 +7,8 @@
 - ArgoCD v3.3.4
 
 ### Описание проблемы (Issue)
-- Репозиторий показывается Failed при попытке законнектить ArgoCD к проекту. В логах `dial tcp ... connect: connection timed out`
+- ArgoCD не может подключиться к GitLab (В логах `dial tcp ... connect: connection timed out`) и виноват в этом не GitLab или сеть. Проверял SSH-ключи, пинговал с хоста, порты, firewall, всё выглядело рабочим, но ArgoCD продолжал падать с `connection timed out`.
+Оказалось, что проблема вообще не в сети или GitLab, это был Calico который тихо захватил всю подсеть в которой жил GitLab - просто дропал их и не говорил почему 
 
 ---
 
