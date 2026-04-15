@@ -1,0 +1,72 @@
+services:
+  elasticsearch:
+    image: elasticsearch:9.3.1
+    volumes:
+      - ./elasticsearch/config.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./docker_volumes/elasticsearch/data:/usr/share/elasticsearch/data
+    environment:
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      ELASTIC_USERNAME: 
+      ELASTIC_PASSWORD: 
+      discovery.type: single-node
+    networks:
+      - elk
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    #restart: always
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s --user elastic:${ELASTIC_PASSWORD} -X GET http://localhost:9200/_cluster/health?pretty | grep status | grep -q '\\(green\\|yellow\\)'"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 24
+      start_period: 40s
+
+  logstash:
+    image: logstash:9.3.1
+    volumes:
+      - ./logstash/config.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipelines:/usr/share/logstash/config/pipelines:ro
+      - ./logstash/pipelines.yml:/usr/share/logstash/config/pipelines.yml:ro
+    environment:
+      LS_JAVA_OPTS: "-Xmx512m -Xms512m"
+    #restart: unless-stopped
+    ports:
+      - "5044:5044"
+      - "5000:5000"
+    networks:
+      - elk
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  kibana:
+    image: kibana:9.3.1
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./kibana/config.yml:/usr/share/kibana/config/kibana.yml:ro
+    networks:
+      - elk
+    #restart: unless-stopped
+    ports:
+      - "5601:5601"
+
+  filebeat:
+    image: elastic/filebeat:9.3.1
+    volumes:
+      - ./filebeat/config.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./host_metrics_app/:/host_metrics_app/:ro
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+  #restart: unless-stopped
+
+networks:
+  elk:
+    driver: bridge                                                                                                                                                
